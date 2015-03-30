@@ -14,5 +14,5 @@ This project follows the [Git Flow model](http://nvie.com/posts/a-successful-git
  * feature/____ branches are branched off of develop and merged back into develop
  * release/#.#.# branches are branched off of develop and merged into master
  * hotfix/____ branches are branched off of master and merged into both master and develop
-
+ * experimental/____ branches are branched off of develop. These can ONLY be merged into feature branches.
  
