@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='chassis',
-    version='0.0.4',
+    version='0.0.5',
     packages=['chassis'],
     description="Tornado framework for self-documenting JSON RESTful APIs.",
     author="Refinery 29",
