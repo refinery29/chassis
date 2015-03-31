@@ -1,4 +1,4 @@
-"""Test User API Handlers."""
+"""Test Utility Decorators."""
 # pylint: disable=missing-docstring
 
 import unittest
