@@ -28,7 +28,7 @@ SUPRESSED_MESSAGES = [
     # 'I0011',  # Inline option disables a message or a messages category.
     # 'too-few-public-methods',
     # 'too-many-public-methods',
-    # 'fixme',
+    'fixme',
     # 'file-ignored'
 ]
 
