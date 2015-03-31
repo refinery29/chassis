@@ -18,7 +18,6 @@ class BaseValidator(object):
     message = "Validation failed."
 
     def __init__(self, message=None, documentation=None):
-        self.request = None
         self.override_message = message
         self.override_documentation = documentation
 
