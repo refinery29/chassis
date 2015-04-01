@@ -125,38 +125,6 @@ class Regex(BaseValidator):
         self.fail()
 
 
-class Integer(BaseValidator):
-    """Validates integers with optional length requirements."""
-
-    def __init__(self, minimum=None, maximum=None,
-                 message=None, documentation=None):
-
-        self.minimum = minimum
-        self.maximum = maximum
-
-        super(Integer, self).__init__(message=message,
-                                      documentation=documentation)
-
-    def validate(self, value):
-
-        if isinstance(value, basestring):
-            try:
-                value = int(value)
-            except ValueError:
-                self.fail()
-        else:
-            if value != int(value):
-                self.fail()
-
-        if self.minimum is not None and value < self.minimum:
-            self.fail()
-
-        if self.maximum is not None and value > self.maximum:
-            self.fail()
-
-        return value
-
-
 class Number(BaseValidator):
     """Validates floating point numbers with optional length requirements."""
 
@@ -182,3 +150,26 @@ class Number(BaseValidator):
             self.fail()
 
         return value
+
+
+class Integer(Number):
+    """Validates integers with optional length requirements."""
+
+    def __init__(self, minimum=None, maximum=None,
+                 message=None, documentation=None):
+
+        super(Integer, self).__init__(minimum=minimum, maximum=maximum,
+                                      message=message,
+                                      documentation=documentation)
+
+    def validate(self, value):
+
+        # Do the Number validation first
+        float_value = super(Integer, self).validate(value)
+
+        int_value = int(float_value)
+
+        if int_value == float_value:
+            return int_value
+        else:
+            self.fail()
