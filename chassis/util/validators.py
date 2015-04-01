@@ -1,7 +1,7 @@
 """Parameter Parsing and Validation for Chassis Applications."""
 
 import re
-
+import six
 
 class ValidationError(Exception):
     """Raised when validation fails."""
@@ -62,7 +62,7 @@ class Boolean(BaseValidator):
     message = "Valid boolean required"
 
     def validate(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, six.string_types):
             value = value.lower()
 
         if value in self.truthy:
@@ -91,7 +91,7 @@ class String(BaseValidator):
                                      documentation=documentation)
 
     def validate(self, value):
-        if not isinstance(value, basestring):
+        if not isinstance(value, six.string_types):
             self.fail()
 
         length = len(value)
