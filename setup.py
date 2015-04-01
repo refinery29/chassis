@@ -6,7 +6,7 @@ setup(
     name='chassis',
     version='0.0.5',
     packages=['chassis'],
-    description="Tornado framework for self-documenting JSON RESTful APIs.",
+    description="Opinionated REST Framework",
     author="Refinery 29",
     author_email="chassis-project@refinery29.com",
     url="https://github.com/refinery29/chassis",
