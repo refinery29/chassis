@@ -1,3 +1,5 @@
+"""Chassis: Opinionated REST Framework."""
+
 from distutils.core import setup
 
 setup(
@@ -10,7 +12,7 @@ setup(
     url="https://github.com/refinery29/chassis",
     download_url="https://github.com/refinery29/chassis/archive/v0.0.5.tar.gz",
     keywords=['Tornado', 'RESTful', 'REST', 'API', 'JSON', 'framework'],
-    classifiers = [
+    classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
         'License :: OSI Approved :: MIT License',
@@ -23,7 +25,8 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: HTTP Servers',
         'Topic :: Software Development :: Libraries :: Application Frameworks'
     ],
-    long_description = """\
-Chassis is Refinery29's framework layer on top of Tornado for rapidly building performant, self-documenting JSON-based REST APIs.
+    long_description="""\
+Chassis is Refinery29's framework layer on top of Tornado for rapidly
+building performant, self-documenting JSON-based REST APIs.
 """
     )

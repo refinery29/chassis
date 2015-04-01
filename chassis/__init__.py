@@ -1,2 +1,1 @@
-def foo():
-    return 'baz'
+"""Chassis: Opinionated REST Framework."""
