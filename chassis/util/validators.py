@@ -6,15 +6,11 @@ import re
 class ValidationError(Exception):
     """Raised when validation fails."""
 
-    def __init__(self, message):
-        self.message = message
-        super(ValidationError, self).__init__()
-
 
 class BaseValidator(object):
     """Base class for validators."""
 
-    documentation = "Validated Parameter"
+    documentation = "Validated Parameter."
     message = "Validation failed."
 
     def __init__(self, message=None, documentation=None):
