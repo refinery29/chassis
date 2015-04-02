@@ -1,5 +1,6 @@
 """Utility Parameter Tools for Chassis Applications."""
 
+import six
 from tornado import web
 
 from chassis import util
@@ -10,7 +11,7 @@ def _fetch_arguments(handler, method):
 
     if method.__name__ == 'get':
         arguments = {}
-        for key, value in handler.request.arguments.iteritems():
+        for key, value in six.iteritems(handler.request.arguments):
             # Tornado supports comma-separated lists of values in
             # parameters. We're undoing that here, and if a list
             # is expected the _validate method can handle it.
