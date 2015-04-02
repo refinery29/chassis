@@ -26,6 +26,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Application Frameworks'
     ],
     requires=[
+        'tornado==4.1',
         'validate-email==1.3'
     ]
     long_description="""\
