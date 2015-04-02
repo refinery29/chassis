@@ -30,8 +30,14 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: HTTP Servers',
         'Topic :: Software Development :: Libraries :: Application Frameworks'
     ],
+    requires=[
+        'tornado==4.1',
+        'validate-email==1.3'
+    ]
     long_description="""\
 Chassis is Refinery29's framework layer on top of Tornado for rapidly
 building performant, self-documenting JSON-based REST APIs.
 """
     )
+
+# TODO: Add validate-email==1.3 dependency
