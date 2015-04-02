@@ -4,16 +4,16 @@ from distutils.core import setup
 
 setup(
     name='chassis',
-    version='0.0.5',
+    version='0.1.0',
     packages=['chassis'],
     description="Opinionated REST Framework",
     author="Refinery 29",
     author_email="chassis-project@refinery29.com",
     url="https://github.com/refinery29/chassis",
-    download_url="https://github.com/refinery29/chassis/archive/v0.0.5.tar.gz",
+    download_url="https://github.com/refinery29/chassis/archive/v0.1.0.tar.gz",
     keywords=['Tornado', 'RESTful', 'REST', 'API', 'JSON', 'framework'],
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'License :: OSI Approved :: MIT License',
         'Intended Audience :: Developers',
