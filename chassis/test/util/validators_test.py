@@ -4,8 +4,6 @@
 from chassis import test
 from chassis.util import validators
 
-import mock
-
 
 class TestBaseValidator(test.TestCase):
 
@@ -272,90 +270,3 @@ class TestNumber(test.TestCase):
         self.assertRaises(validators.ValidationError,
                           validator.validate,
                           42.91)
-
-
-class TestEmail(test.TestCase):
-
-    @mock.patch('validate_email.validate_email')
-    def test_email_too_short(self, mock_validate_email):
-        validator = validators.Email()
-        self.assertRaises(validators.ValidationError,
-                          validator.validate,
-                          'em')
-        self.assertEqual(False, mock_validate_email.called)
-
-    @mock.patch('validate_email.validate_email')
-    def test_email_too_long(self, mock_validate_email):
-        validator = validators.Email()
-        self.assertRaises(validators.ValidationError,
-                          validator.validate,
-                          'a'*256)
-        self.assertEqual(False, mock_validate_email.called)
-
-    @mock.patch('validate_email.validate_email')
-    def test_email_without_at(self, mock_validate_email):
-        validator = validators.Email()
-        self.assertRaises(validators.ValidationError,
-                          validator.validate,
-                          'email.at.email.com')
-        self.assertEqual(False, mock_validate_email.called)
-
-    @mock.patch('validate_email.validate_email')
-    def test_passing_emails_without_mx(self, mock_validate_email):
-        email_address = 'email@example.com'
-        validator = validators.Email()
-        value = validator.validate(email_address)
-        self.assertEqual(value, email_address)
-        mock_validate_email.assert_called_with(email_address)
-
-    @mock.patch('validate_email.validate_email')
-    def test_passing_emails_with_mx(self, mock_validate_email):
-        email_address = 'email@example.com'
-        validator = validators.Email(check_mx=True)
-        value = validator.validate(email_address)
-        self.assertEqual(value, email_address)
-        mock_validate_email.assert_called_with(email_address,
-                                               check_mx=True,
-                                               smtp_timeout=0.3)
-
-    @mock.patch('validate_email.validate_email')
-    def test_domain_in_whitelist(self, mock_validate_email):
-        email_address = 'email@example.com'
-        whitelist = set(['example.com', ])
-        validator = validators.Email(check_mx=True, whitelist=whitelist)
-        value = validator.validate(email_address)
-        self.assertEqual(value, email_address)
-        mock_validate_email.assert_called_with(email_address)
-
-    @mock.patch('validate_email.validate_email')
-    def test_domain_not_in_whitelist(self, mock_validate_email):
-        email_address = 'email@example.com'
-        whitelist = set(['foo.com', ])
-        validator = validators.Email(check_mx=True, whitelist=whitelist)
-        value = validator.validate(email_address)
-        self.assertEqual(value, email_address)
-        mock_validate_email.assert_called_with(email_address,
-                                               check_mx=True,
-                                               smtp_timeout=0.3)
-
-    @mock.patch('validate_email.validate_email')
-    def test_validator_fails_with_mx(self, mock_validate_email):
-        email_address = 'email@example.com'
-        mock_validate_email.return_value = False
-        validator = validators.Email(check_mx=True)
-        self.assertRaises(validators.ValidationError,
-                          validator.validate,
-                          email_address)
-        mock_validate_email.assert_called_with(email_address,
-                                               check_mx=True,
-                                               smtp_timeout=0.3)
-
-    @mock.patch('validate_email.validate_email')
-    def test_validator_fails_without_mx(self, mock_validate_email):
-        email_address = 'email@example.com'
-        mock_validate_email.return_value = False
-        validator = validators.Email()
-        self.assertRaises(validators.ValidationError,
-                          validator.validate,
-                          email_address)
-        mock_validate_email.assert_called_with(email_address)
