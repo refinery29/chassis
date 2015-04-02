@@ -2,6 +2,8 @@
 
 import re
 import six
+import validate_email
+
 
 class ValidationError(Exception):
     """Raised when validation fails."""
@@ -105,6 +107,9 @@ class String(BaseValidator):
 class Regex(BaseValidator):
     """Validates a string agains a regular expression."""
 
+    documentation = "Regex."
+    message = "String matching regular expression required."
+
     def __init__(self, regex, message=None, documentation=None):
         self.pattern = re.compile(regex)
 
@@ -122,6 +127,9 @@ class Regex(BaseValidator):
 
 class Number(BaseValidator):
     """Validates floating point numbers with optional length requirements."""
+
+    documentation = "Number."
+    message = "Valid number required."
 
     def __init__(self, minimum=None, maximum=None,
                  message=None, documentation=None):
@@ -150,6 +158,9 @@ class Number(BaseValidator):
 class Integer(Number):
     """Validates integers with optional length requirements."""
 
+    documentation = "Integer."
+    message = "Valid integer required."
+
     def __init__(self, minimum=None, maximum=None,
                  message=None, documentation=None):
 
@@ -168,3 +179,68 @@ class Integer(Number):
             return int_value
         else:
             self.fail()
+
+
+class Email(String):
+    """Validate an email address."""
+
+    documentation = "Email Address."
+    message = "Valid email address required."
+
+    # pylint: disable=too-many-arguments
+    def __init__(self, check_mx=False, whitelist=None, smtp_timeout=0.3,
+                 message=None, documentation=None):
+        """Instantiate an email validator.
+
+        The Email validator uses validate_email to check an email address's
+        format, and optionally does an MX record check on the domain name.
+
+        When performing an MX record check, you can also supply a whitelist
+        that can be used to short-circuit the MX record check for common or
+        known domains.
+
+        Keyword Arguments:
+
+          check_mx -- Boolean. Set true to check MX records. (default False)
+          whitelist -- Iterable. If set, and check_mx is True, the whitelist
+            is used to short-circuit the MX record check. You can use any
+            iterable, but a set is preferred. (default None)
+        message -- String. Override the default message if supplied.
+            (default None)
+        documentation -- String. Override the default documentation if
+            supplied. (default None)
+
+        """
+        self.whitelist = whitelist
+        self.check_mx = check_mx
+        self.smtp_timeout = smtp_timeout
+
+        super(Email, self).__init__(min_length=3, max_length=255,
+                                    message=message,
+                                    documentation=documentation)
+
+    def validate(self, value):
+
+        value = super(Email, self).validate(value)
+
+        if '@' not in value:
+            self.fail()
+
+        if self.check_mx:
+
+            if self.whitelist:
+                domain = value.split('@')[-1].strip().lower()
+                if domain in self.whitelist:
+                    if validate_email.validate_email(value):
+                        return value
+
+            if validate_email.validate_email(value,
+                                             check_mx=True,
+                                             smtp_timeout=self.smtp_timeout):
+                return value
+
+        else:
+            if validate_email.validate_email(value):
+                return value
+
+        self.fail()
