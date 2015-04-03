@@ -1,16 +1,16 @@
 """Chassis: Opinionated REST Framework."""
 
-from distutils.core import setup
+from setuptools import find_packages, setup
 
 setup(
     name='chassis',
-    version='0.1.1',
-    packages=['chassis'],
+    version='0.1.2',
+    packages=find_packages(),
     description="Opinionated REST Framework",
     author="Refinery 29",
     author_email="chassis-project@refinery29.com",
     url="https://github.com/refinery29/chassis",
-    download_url="https://github.com/refinery29/chassis/archive/v0.1.1.tar.gz",
+    download_url="https://github.com/refinery29/chassis/archive/v0.1.2.tar.gz",
     keywords=['Tornado', 'RESTful', 'REST', 'API', 'JSON', 'framework'],
     classifiers=[
         'Development Status :: 3 - Alpha',
