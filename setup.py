@@ -4,13 +4,13 @@ from distutils.core import setup
 
 setup(
     name='chassis',
-    version='0.1.0',
+    version='0.1.1',
     packages=['chassis'],
     description="Opinionated REST Framework",
     author="Refinery 29",
     author_email="chassis-project@refinery29.com",
     url="https://github.com/refinery29/chassis",
-    download_url="https://github.com/refinery29/chassis/archive/v0.1.0.tar.gz",
+    download_url="https://github.com/refinery29/chassis/archive/v0.1.1.tar.gz",
     keywords=['Tornado', 'RESTful', 'REST', 'API', 'JSON', 'framework'],
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -24,15 +24,14 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4'
+        'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Internet :: WWW/HTTP :: HTTP Servers',
         'Topic :: Software Development :: Libraries :: Application Frameworks'
     ],
-    requires=[
-        'tornado==4.1',
-        'validate-email==1.3'
+    install_requires=[
+        'tornado'
     ],
     long_description="""\
 Chassis is Refinery29's framework layer on top of Tornado for rapidly
