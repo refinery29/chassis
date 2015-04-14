@@ -3,7 +3,7 @@
 import six
 from tornado import web
 
-from chassis import util
+from chassis.util import decorators
 
 
 def _fetch_arguments(handler, method):
@@ -60,7 +60,7 @@ def parse(parameters):
     """
     # pylint: disable=protected-access
 
-    @util.decorators.include_original
+    @decorators.include_original
     def decorate(method):
         """Setup returns this decorator, which is called on the method."""
 
