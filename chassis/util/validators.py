@@ -39,7 +39,7 @@ class BaseValidator(object):
 
         raise ValidationError(self.get_message())
 
-    def validate(self, unused_value):
+    def validate(self, unused_value, unused_handler):
         """Override this to implement validation logic.
 
         Return the validated value or call self.fail() to raise a
@@ -57,7 +57,7 @@ class Boolean(BaseValidator):
     documentation = "Truthy value: Prefered `true` or `false`"
     message = "Valid boolean required"
 
-    def validate(self, value):
+    def validate(self, value, unused_handler):
         if isinstance(value, six.string_types):
             value = value.lower()
 
@@ -86,7 +86,7 @@ class String(BaseValidator):
         super(String, self).__init__(message=message,
                                      documentation=documentation)
 
-    def validate(self, value):
+    def validate(self, value, unused_handler):
         if not isinstance(value, six.string_types):
             self.fail()
 
@@ -115,7 +115,7 @@ class Regex(BaseValidator):
         super(Regex, self).__init__(message=message,
                                     documentation=documentation)
 
-    def validate(self, value):
+    def validate(self, value, unused_handler):
         match = self.pattern.match(value)
 
         if match and value == match.group():
@@ -139,7 +139,7 @@ class Number(BaseValidator):
         super(Number, self).__init__(message=message,
                                      documentation=documentation)
 
-    def validate(self, value):
+    def validate(self, value, unused_handler):
         try:
             value = float(value)
         except ValueError:
@@ -167,10 +167,10 @@ class Integer(Number):
                                       message=message,
                                       documentation=documentation)
 
-    def validate(self, value):
+    def validate(self, value, handler):
 
         # Do the Number validation first
-        float_value = super(Integer, self).validate(value)
+        float_value = super(Integer, self).validate(value, handler)
 
         int_value = int(float_value)
 
