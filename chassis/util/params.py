@@ -78,7 +78,7 @@ def parse(parameters):
                     try:
                         kwargs[key] = _apply_validator_chain(
                             properties.get('validators', []), value, self)
-                    except validators.ValidationError, err:
+                    except validators.ValidationError as err:
                         errors.append(err)
                 else:
                     if properties.get('required', False):
