@@ -4,6 +4,7 @@ import six
 from tornado import web
 
 from chassis.util import decorators
+from chassis.util import validators
 
 
 def _fetch_arguments(handler, method):
@@ -25,7 +26,7 @@ def _fetch_arguments(handler, method):
     return arguments
 
 
-def _apply_validator_chain(validators, value):
+def _apply_validator_chain(validators, value, handler):
     """Apply validators in sequence to a value."""
 
     if hasattr(validators, 'validate'):  # not a list
@@ -33,7 +34,7 @@ def _apply_validator_chain(validators, value):
 
     for validator in validators:
         if hasattr(validator, 'validate'):
-            value = validator.validate(value)
+            value = validator.validate(value, handler)
         else:
             raise web.HTTPError(500)
     return value
@@ -70,11 +71,15 @@ def parse(parameters):
             arguments = _fetch_arguments(self, method)
 
             kwargs = {}
+            errors = []
             for key, properties in parameters:
                 if key in arguments:
                     value = arguments[key]
-                    validators = properties.get('validators', [])
-                    kwargs[key] = _apply_validator_chain(validators, value)
+                    try:
+                        kwargs[key] = _apply_validator_chain(
+                            properties.get('validators', []), value, self)
+                    except validators.ValidationError as err:
+                        errors.append(err)
                 else:
                     if properties.get('required', False):
                         raise web.HTTPError(
@@ -87,6 +92,8 @@ def parse(parameters):
                             kwargs[key] = properties['default']
                         else:
                             kwargs[key] = None
+            if errors:
+                raise web.HTTPError(400, 'There were %s errors' % len(errors) )
             return method(self, *args, **kwargs)
 
         # TODO: Autogenerate documentation data for parameters.
