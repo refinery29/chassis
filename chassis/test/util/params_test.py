@@ -11,11 +11,8 @@ from chassis.util import params
 class TestParamParser(unittest.TestCase):
 
     def setUp(self):
-        self.handler = mock.Mock()
-        self.handler.request = mock.Mock()
+        self.handler = mock.MagicMock()
         self.handler.request.arguments = {}
-
-        self.handler.get = mock.Mock()
         self.handler.get.__name__ = "get"
 
         self.bar_validator = mock.Mock()
