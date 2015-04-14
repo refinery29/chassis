@@ -11,12 +11,9 @@ from chassis.util import params
 class TestParamParser(unittest.TestCase):
 
     def setUp(self):
-        self.handler = mock.Mock()
-        self.handler.request = mock.Mock()
+        self.handler = mock.MagicMock()
         self.handler.request.arguments = {}
-
-        self.get = mock.Mock()
-        self.get.__name__ = "get"
+        self.handler.get.__name__ = "get"
 
         self.bar_validator = mock.Mock()
         self.bar_validator.validate = mock.Mock(return_value='bar')
@@ -36,18 +33,19 @@ class TestParamParser(unittest.TestCase):
         # Apply the decorator we're testing to the mock get method
         get = params.parse([
             ('foo', {'validators': self.bar_validator, 'required': False})
-            ])(self.get)
+            ])(self.handler.get)
 
         # Called without parameters, raises an exception
         get(self.handler)
-        self.get.assert_called_with(self.handler, foo=None)
+        self.handler.get.assert_called_with(self.handler, foo=None)
 
         # Called with parameters, returns validated parameter
         self.handler.request.arguments['foo'] = 'Foobar'
         get(self.handler)
 
-        self.bar_validator.validate.assert_called_with('Foobar')
-        self.get.assert_called_with(self.handler, foo='bar')
+        self.bar_validator.validate.assert_called_with('Foobar',
+                                                       self.handler)
+        self.handler.get.assert_called_with(self.handler, foo='bar')
 
     def test_default_parameter(self):
 
@@ -57,25 +55,26 @@ class TestParamParser(unittest.TestCase):
                 'validators': self.bar_validator,
                 'required': False,
                 'default': 42
-                })])(self.get)
+                })])(self.handler.get)
 
         # Called without parameters, uses default value
         get(self.handler)
-        self.get.assert_called_with(self.handler, foo=42)
+        self.handler.get.assert_called_with(self.handler, foo=42)
 
         # Called with parameters, returns validated parameter
         self.handler.request.arguments['foo'] = 'Foobar'
         get(self.handler)
 
-        self.bar_validator.validate.assert_called_with('Foobar')
-        self.get.assert_called_with(self.handler, foo='bar')
+        self.bar_validator.validate.assert_called_with('Foobar',
+                                                       self.handler)
+        self.handler.get.assert_called_with(self.handler, foo='bar')
 
     def test_required_parameter(self):
 
         # Apply the decorator we're testing to the mock get method
         get = params.parse([
             ('foo', {'validators': [self.bar_validator], 'required': True})
-            ])(self.get)
+            ])(self.handler.get)
 
         # Called without parameters, raises an exception
         self.assertRaises(web.HTTPError,
@@ -86,15 +85,16 @@ class TestParamParser(unittest.TestCase):
         self.handler.request.arguments['foo'] = 'Foobar'
         get(self.handler)
 
-        self.bar_validator.validate.assert_called_with('Foobar')
-        self.get.assert_called_with(self.handler, foo='bar')
+        self.bar_validator.validate.assert_called_with('Foobar',
+                                                       self.handler)
+        self.handler.get.assert_called_with(self.handler, foo='bar')
 
     def test_failing_parameter(self):
 
         # Apply the decorator we're testing to the mock get method
         get = params.parse([
             ('foo', {'validators': [self.fail_validator], 'required': True})
-            ])(self.get)
+            ])(self.handler.get)
 
         # Called without parameters, raises an exception
         self.assertRaises(web.HTTPError,
@@ -114,7 +114,7 @@ class TestParamParser(unittest.TestCase):
             ('foo', {'validators': self.bar_validator, 'required': True}),
             ('spam', {'validators': self.bat_validator, 'required': True}),
             ('eggs', {'validators': self.baz_validator, 'required': False})
-            ])(self.get)
+            ])(self.handler.get)
 
         # Called without parameters, raises an exception
         self.assertRaises(web.HTTPError,
@@ -127,9 +127,11 @@ class TestParamParser(unittest.TestCase):
 
         get(self.handler)
 
-        self.bar_validator.validate.assert_called_with('Foobar')
-        self.bat_validator.validate.assert_called_with('Canned Meat')
-        self.get.assert_called_with(self.handler,
+        self.bar_validator.validate.assert_called_with('Foobar',
+                                                       self.handler)
+        self.bat_validator.validate.assert_called_with('Canned Meat',
+                                                       self.handler)
+        self.handler.get.assert_called_with(self.handler,
                                     foo='bar',
                                     spam='bat',
                                     eggs=None)
@@ -141,9 +143,10 @@ class TestParamParser(unittest.TestCase):
 
         get(self.handler)
 
-        self.bar_validator.validate.assert_called_with('Foobar')
-        self.bat_validator.validate.assert_called_with('Canned Meat')
-        self.get.assert_called_with(self.handler,
+        self.bar_validator.validate.assert_called_with('Foobar', self.handler)
+        self.bat_validator.validate.assert_called_with('Canned Meat',
+                                                       self.handler)
+        self.handler.get.assert_called_with(self.handler,
                                     foo='bar',
                                     spam='bat',
                                     eggs='baz')
@@ -152,7 +155,7 @@ class TestParamParser(unittest.TestCase):
         # Apply the decorator we're testing to the mock get method
         get = params.parse([
             ('foo', {'validators': self.bar_validator, 'required': True})
-            ])(self.get)
+            ])(self.handler.get)
 
         # Called without parameters, raises an exception
         self.assertRaises(web.HTTPError,
@@ -164,8 +167,9 @@ class TestParamParser(unittest.TestCase):
         self.handler.request.arguments['extra'] = 'Do Not Want'
         get(self.handler)
 
-        self.bar_validator.validate.assert_called_with('Foobar')
-        self.get.assert_called_with(self.handler, foo='bar')
+        self.bar_validator.validate.assert_called_with('Foobar',
+                                                       self.handler)
+        self.handler.get.assert_called_with(self.handler, foo='bar')
 
     def test_chained_validators(self):
 
@@ -176,7 +180,7 @@ class TestParamParser(unittest.TestCase):
                                self.bat_validator,
                                self.baz_validator],
                 'required': True
-                })])(self.get)
+                })])(self.handler.get)
 
         # Called without parameters, raises an exception
 
@@ -190,11 +194,14 @@ class TestParamParser(unittest.TestCase):
         self.handler.request.arguments['foo'] = 'Foobar'
         get(self.handler)
 
-        self.bar_validator.validate.assert_called_with('Foobar')
-        self.bat_validator.validate.assert_called_with('bar')
-        self.baz_validator.validate.assert_called_with('bat')
+        self.bar_validator.validate.assert_called_with('Foobar',
+                                                       self.handler)
+        self.bat_validator.validate.assert_called_with('bar',
+                                                       self.handler)
+        self.baz_validator.validate.assert_called_with('bat',
+                                                       self.handler)
 
-        self.get.assert_called_with(self.handler, foo='baz')
+        self.handler.get.assert_called_with(self.handler, foo='baz')
 
     def test_chained_validators_fail(self):
 
@@ -205,7 +212,7 @@ class TestParamParser(unittest.TestCase):
                                self.bat_validator,
                                self.fail_validator],
                 'required': True
-                })])(self.get)
+                })])(self.handler.get)
 
         # Called without parameters, raises an exception
 
