@@ -26,7 +26,7 @@ else:
             os.path.join(dirpath, filename)
             for filename in filenames
             if ".py" == filename[-3:]
-
+        )
 
 # A list of messages that should not be printed by pylint.
 SUPRESSED_MESSAGES = [
