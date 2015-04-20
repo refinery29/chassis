@@ -28,30 +28,16 @@ class DetectCircleTest(unittest.TestCase):
             Check that Circular Dependencies are
             detected and an exception is raised.
         """
-        with self.assertRaises(resolver.CircularDependencyException) as context:
-            graph = {
-                'a': set(['b']),
-                'b': set(['a'])
-            }
-            resolver.detect_circle(graph)
+        self.assertRaises(resolver.CircularDependencyException,
+                          resolver.detect_circle,
+                          {'a': set(['b']),
+                           'b': set(['a'])})
 
-        self.assertEquals(
-            context.exception.node_path,
-            'a->b->a'
-        )
-
-        with self.assertRaises(resolver.CircularDependencyException) as context:
-            graph = {
-                'a': set(['b']),
-                'b': set(['c']),
-                'c': set(['a'])
-            }
-            resolver.detect_circle(graph)
-
-        self.assertEquals(
-            context.exception.node_path,
-            'a->b->c->a'
-        )
+        self.assertRaises(resolver.CircularDependencyException,
+                          resolver.detect_circle,
+                          {'a': set(['b']),
+                           'b': set(['c']),
+                           'c': set(['a'])})
 
     # pylint: disable=invalid-name
     def test_detect_circle_raises_type_exception(self):
@@ -59,38 +45,35 @@ class DetectCircleTest(unittest.TestCase):
             Check that invalid argument types are
             detected and an exception is raised.
         """
-        with self.assertRaises(TypeError):
-            resolver._detect_circle('not_a_dictionary')
+        self.assertRaises(TypeError,
+                          resolver._detect_circle,
+                          'not_a_dictionary')
 
-        with self.assertRaises(TypeError):
-            resolver._detect_circle(
-                {'a': ()},
-                'not_a_tuple'
-            )
+        self.assertRaises(TypeError,
+                          resolver._detect_circle,
+                          {'a': ()},
+                          'not_a_tuple')
 
-        with self.assertRaises(TypeError):
-            resolver._detect_circle(
-                {'a': ()},
-                (),
-                'not_a_list'
-            )
+        self.assertRaises(TypeError,
+                          resolver._detect_circle,
+                          {'a': ()},
+                          (),
+                          'not_a_list')
 
-        with self.assertRaises(TypeError):
-            resolver._detect_circle(
-                {'a': ()},
-                (),
-                [],
-                'not_an_integer'
-            )
+        self.assertRaises(TypeError,
+                          resolver._detect_circle,
+                          {'a': ()},
+                          (),
+                          [],
+                          'not_an_integer')
 
-        with self.assertRaises(TypeError):
-            resolver._detect_circle(
-                {'a': ()},
-                (),
-                [],
-                0,
-                'not_a_list'
-            )
+        self.assertRaises(TypeError,
+                          resolver._detect_circle,
+                          {'a': ()},
+                          (),
+                          [],
+                          0,
+                          'not_a_list')
 
     # pylint: disable=no-self-use
     def test_detect_circle_2(self):
