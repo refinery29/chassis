@@ -26,15 +26,15 @@ def _fetch_arguments(handler, method):
     return arguments
 
 
-def _apply_validator_chain(validators, value, handler):
+def _apply_validator_chain(_validators, value, handler):
     """Apply validators in sequence to a value."""
 
-    if hasattr(validators, 'validate'):  # not a list
-        validators = [validators, ]
+    if hasattr(_validators, 'validate'):  # not a list
+        _validators = [_validators, ]
 
-    for validator in validators:
-        if hasattr(validator, 'validate'):
-            value = validator.validate(value, handler)
+    for _validators in _validators:
+        if hasattr(_validators, 'validate'):
+            value = _validators.validate(value, handler)
         else:
             raise web.HTTPError(500)
     return value
@@ -60,7 +60,6 @@ def parse(parameters):
         self.render_json({'email': email, 'password': password})
     """
     # pylint: disable=protected-access
-
     @decorators.include_original
     def decorate(method):
         """Setup returns this decorator, which is called on the method."""
@@ -93,7 +92,7 @@ def parse(parameters):
                         else:
                             kwargs[key] = None
             if errors:
-                raise web.HTTPError(400, 'There were %s errors' % len(errors) )
+                raise web.HTTPError(400, 'There were %s errors' % len(errors))
             return method(self, *args, **kwargs)
 
         # TODO: Autogenerate documentation data for parameters.

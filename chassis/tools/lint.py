@@ -34,6 +34,7 @@ SUPRESSED_MESSAGES = [
     # 'too-few-public-methods',
     # 'too-many-public-methods',
     'fixme',
+    'locally-disabled',
     # 'file-ignored'
 ]
 
