@@ -26,15 +26,15 @@ def _fetch_arguments(handler, method):
     return arguments
 
 
-def _apply_validator_chain(_validators, value, handler):
+def _apply_validator_chain(chain, value, handler):
     """Apply validators in sequence to a value."""
 
-    if hasattr(_validators, 'validate'):  # not a list
-        _validators = [_validators, ]
+    if hasattr(chain, 'validate'):  # not a list
+        chain = [chain, ]
 
-    for _validators in _validators:
-        if hasattr(_validators, 'validate'):
-            value = _validators.validate(value, handler)
+    for validator in chain:
+        if hasattr(validator, 'validate'):
+            value = validator.validate(value, handler)
         else:
             raise web.HTTPError(500)
     return value
