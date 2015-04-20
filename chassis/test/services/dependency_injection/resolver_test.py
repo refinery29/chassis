@@ -124,7 +124,6 @@ class DetectCircleTest(unittest.TestCase):
         # Call Test Method
         tree = resolver.detect_circle(graph)
         assert isinstance(tree, DependencyTree)
-        print tree
         self.assertEquals(7, tree.head_count)
         self.assertEquals(
             set(['d', 'a', 'c', 'b', 'e', 'g', 'f']),
