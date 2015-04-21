@@ -8,7 +8,6 @@ python:
     - "3.4"
 
 install:
-    - python setup.py install
     - pip install -r chassis/development.txt
 
 script:
