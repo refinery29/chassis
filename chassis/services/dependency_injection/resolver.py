@@ -1,4 +1,7 @@
 """ Resolver module """
+
+import six
+
 from chassis.services.dependency_injection import ServiceFactory
 from chassis.util.tree import DependencyNode
 from chassis.util.tree import DependencyTree
@@ -137,7 +140,7 @@ class Resolver(object):
         newly_instantiated = set()
 
         # Instantiate services with an empty dependency set
-        for (name, dependency_set) in nodes.iteritems():
+        for (name, dependency_set) in six.iteritems(nodes):
             if dependency_set:
                 # Skip non-empty dependency sets
                 continue
@@ -165,7 +168,7 @@ class Resolver(object):
             raise Exception('No nodes removed!')
 
         # Remove newly instantiated services from dependency sets
-        for (name, dependency_set) in nodes.iteritems():
+        for (name, dependency_set) in six.iteritems(nodes):
             nodes[name] = dependency_set.difference(newly_instantiated)
 
         # Recursion is recursion is ...
@@ -176,7 +179,7 @@ class Resolver(object):
         if not isinstance(config, dict):
             raise TypeError('"config" must be a dictionary')
 
-        for (name, conf) in config.iteritems():
+        for (name, conf) in six.iteritems(config):
             args = [] if 'args' not in conf else conf['args']
             kwargs = {} if 'kwargs' not in conf else conf['kwargs']
 
