@@ -109,7 +109,7 @@ class DetectCircleTest(unittest.TestCase):
         assert isinstance(tree, DependencyTree)
         self.assertEquals(7, tree.head_count)
         self.assertEquals(
-            set(['d', 'a', 'c', 'b', 'e', 'g', 'f']),
+            set(['a', 'b', 'c', 'd', 'e', 'f', 'g']),
             tree.head_values
         )
 
