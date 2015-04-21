@@ -33,7 +33,16 @@ def _check_type(name, obj, expected_type):
 
 
 def _import_module(module_name):
-    """ Imports the module dynamically """
+    """
+        Imports the module dynamically
+
+        _import_module('foo.bar') calls:
+            __import__('foo.bar',
+                       globals(),
+                       locals(),
+                       ['bar', ],
+                       0)
+    """
     fromlist = []
     dot_position = module_name.rfind('.')
     if dot_position > -1:
