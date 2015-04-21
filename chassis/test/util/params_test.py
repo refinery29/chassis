@@ -132,9 +132,9 @@ class TestParamParser(unittest.TestCase):
         self.bat_validator.validate.assert_called_with('Canned Meat',
                                                        self.handler)
         self.handler.get.assert_called_with(self.handler,
-                                    foo='bar',
-                                    spam='bat',
-                                    eggs=None)
+                                            foo='bar',
+                                            spam='bat',
+                                            eggs=None)
 
         # Called with all parameters, returns validated parameters
         self.handler.request.arguments['foo'] = 'Foobar'
@@ -147,9 +147,9 @@ class TestParamParser(unittest.TestCase):
         self.bat_validator.validate.assert_called_with('Canned Meat',
                                                        self.handler)
         self.handler.get.assert_called_with(self.handler,
-                                    foo='bar',
-                                    spam='bat',
-                                    eggs='baz')
+                                            foo='bar',
+                                            spam='bat',
+                                            eggs='baz')
 
     def test_extra_parameters(self):
         # Apply the decorator we're testing to the mock get method

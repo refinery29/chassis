@@ -15,13 +15,18 @@ except ImportError:
 # either use the files given on the command line or all '*.py' files
 # located in and beyond the working directory
 FILES = []
-for dirpath, dirnames, filenames in os.walk(os.getcwd()):
-    FILES.extend(
-        os.path.join(dirpath, filename)
-        for filename in filenames
-        if ".py" == filename[-3:]
-    )
 
+# pylint: disable=invalid-name
+argc = len(sys.argv)
+if argc > 1:
+    FILES = sys.argv[1:argc]
+else:
+    for dirpath, dirnames, filenames in os.walk(os.getcwd()):
+        FILES.extend(
+            os.path.join(dirpath, filename)
+            for filename in filenames
+            if ".py" == filename[-3:]
+        )
 
 # A list of messages that should not be printed by pylint.
 SUPRESSED_MESSAGES = [
@@ -29,6 +34,7 @@ SUPRESSED_MESSAGES = [
     # 'too-few-public-methods',
     # 'too-many-public-methods',
     'fixme',
+    'locally-disabled',
     # 'file-ignored'
 ]
 
