@@ -1,0 +1,37 @@
+wobble:
+    module: chassis.test.example_classes
+    class: Wobble
+    kwargs:
+        foo: "@foo"
+        bar: "@bar"
+        baz: "@baz"
+        spam: "@spam"
+
+qux:
+    module: chassis.test.example_classes
+    class: Qux
+    args:
+        - "@foo"
+        - "@bar"
+        - "@baz"
+
+bar:
+    module: chassis.test.example_classes
+    class: Bar
+    args:
+        - "@foo"
+
+foo:
+    module: chassis.test.example_classes
+    class: Foo
+
+baz:
+    module: chassis.test.example_classes
+    class: Baz
+
+spam:
+    module: chassis.test.example_classes
+    class: Spam
+    kwargs:
+        ham: 'ham!'
+        eggs: 'eggz'

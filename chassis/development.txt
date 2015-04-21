@@ -4,6 +4,7 @@ pep8==1.6.2
 pylint==1.4.3
 sniffer==0.3.2
 tornado==4.1
+pyaml==13.12.0
 
 # Install MacFSEvents when you're using sniffer on OS X to improve performance.
 # MacFSEvents==0.3
