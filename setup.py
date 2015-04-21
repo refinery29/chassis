@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='chassis',
-    version='0.1.3',
+    version='0.1.4',
     packages=find_packages(),
     description="Opinionated REST Framework",
     author="Refinery 29",
@@ -31,7 +31,8 @@ setup(
         'Topic :: Software Development :: Libraries :: Application Frameworks'
     ],
     install_requires=[
-        'tornado'
+        'tornado',
+        'six'
     ],
     long_description="""\
 Chassis is Refinery29's framework layer on top of Tornado for rapidly
