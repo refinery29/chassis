@@ -1,5 +1,7 @@
 """ Services Module """
 
+from six import string_types, iteritems
+
 
 class InvalidServiceConfiguration(Exception):
     """Raised when a service configuration is Invalid"""
@@ -40,7 +42,7 @@ def _import_module(module_name):
         )
 
     # Import module
-    module = __import__(module_name, globals(), locals(), fromlist, -1)
+    module = __import__(module_name, globals(), locals(), fromlist, 0)
 
     return module
 
@@ -162,7 +164,7 @@ class ServiceFactory(object):
                 to_append = self._replace_scalars_in_args(arg)
             elif isinstance(arg, dict):
                 to_append = self._replace_scalars_in_kwargs(arg)
-            elif isinstance(arg, basestring):
+            elif isinstance(arg, string_types):
                 to_append = self._replace_scalar(arg)
             else:
                 to_append = arg
@@ -174,12 +176,12 @@ class ServiceFactory(object):
         _check_type('kwargs', kwargs, dict)
 
         new_kwargs = {}
-        for (name, value) in kwargs.iteritems():
+        for (name, value) in iteritems(kwargs):
             if isinstance(value, list):
                 new_kwargs[name] = self._replace_scalars_in_args(value)
             elif isinstance(value, dict):
                 new_kwargs[name] = self._replace_scalars_in_kwargs(value)
-            elif isinstance(value, basestring):
+            elif isinstance(value, string_types):
                 new_kwargs[name] = self._replace_scalar(value)
             else:
                 new_kwargs[name] = value
@@ -195,7 +197,7 @@ class ServiceFactory(object):
                 new_args.append(self._replace_services_in_args(arg))
             elif isinstance(arg, dict):
                 new_args.append(self._replace_services_in_kwargs(arg))
-            elif isinstance(arg, basestring):
+            elif isinstance(arg, string_types):
                 new_args.append(self._replace_service(arg))
             else:
                 new_args.append(arg)
@@ -206,12 +208,12 @@ class ServiceFactory(object):
         _check_type('kwargs', kwargs, dict)
 
         new_kwargs = {}
-        for (name, value) in kwargs.iteritems():
+        for (name, value) in iteritems(kwargs):
             if isinstance(value, list):
                 new_kwargs[name] = self._replace_services_in_args(value)
             elif isinstance(value, dict):
                 new_kwargs[name] = self._replace_services_in_kwargs(value)
-            elif isinstance(value, basestring):
+            elif isinstance(value, string_types):
                 new_kwargs[name] = self._replace_service(value)
             else:
                 new_kwargs[name] = value
