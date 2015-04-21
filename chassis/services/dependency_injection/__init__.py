@@ -123,23 +123,47 @@ class ServiceFactory(object):
 
     def create_from_dict(self, dictionary):
         """ Initializes an instance from a dictionary blueprint """
-        has_args = 'args' in dictionary
-        has_kwargs = 'kwargs' in dictionary
-        has_factory_method = 'factory-method' in dictionary
-        has_factory_args = 'factory-args' in dictionary
-        has_factory_kwargs = 'factory-kwargs' in dictionary
-        has_static = 'static' in dictionary
-        has_calls = 'calls' in dictionary
+        # Defaults
+        args = []
+        kwargs = {}
+        factory_method = None
+        factory_args = []
+        factory_kwargs = {}
+        static = False
+        calls = None
+
+        # Check dictionary for arguments
+        if 'args' in dictionary:
+            args = dictionary['args']
+
+        if 'kwargs' in dictionary:
+            kwargs = dictionary['kwargs']
+
+        if 'factory-method' in dictionary:
+            factory_method = dictionary['factory-method']
+
+        if 'factory-args' in dictionary:
+            factory_args =dictionary['factory-args']
+
+        if 'factory-kwargs' in dictionary:
+            factory_kwargs =dictionary['factory-kwargs']
+
+        if 'static' in dictionary:
+            static = dictionary['static']
+
+        if 'calls' in dictionary:
+            calls = dictionary['calls']
+
         return self.create(
             dictionary['module'],
             dictionary['class'],
-            [] if not has_args else dictionary['args'],
-            {} if not has_kwargs else dictionary['kwargs'],
-            None if not has_factory_method else dictionary['factory-method'],
-            [] if not has_factory_args else dictionary['factory-args'],
-            {} if not has_factory_kwargs else dictionary['factory-kwargs'],
-            False if not has_static else dictionary['static'],
-            None if not has_calls else dictionary['calls']
+            args=args,
+            kwargs=kwargs,
+            factory_method=factory_method,
+            factory_args=factory_args,
+            factory_kwargs=factory_kwargs,
+            static=static,
+            calls=calls
         )
 
     def add_instantiated_service(self, name, service):
