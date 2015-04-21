@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='chassis',
-    version='0.1.4',
+    version='0.1.3',
     packages=find_packages(),
     description="Opinionated REST Framework",
     author="Refinery 29",
