@@ -186,10 +186,7 @@ class ResolverTest(unittest.TestCase):
         assert isinstance(services['foo'], Foo)
 
     def test_advanced(self):
-        """Test advanced features???
-
-        TODO: Better docstring for this.
-        """
+        """Test advanced configuration dictionary."""
 
         config = {
             'logger': {
