@@ -128,7 +128,8 @@ def parse_dict(parameters):
         ])
     def post(self, data):
         # Render JSON for the provided parameters
-        self.render_json({'email': data['email'], 'password': data['password']})
+        self.render_json({'email': data['email'],
+                          'password': data['password']})
     """
     # pylint: disable=protected-access
     @decorators.include_original

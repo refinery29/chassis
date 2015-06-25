@@ -428,4 +428,3 @@ class TestParamParser(unittest.TestCase):
         self.assertRaises(web.HTTPError,
                           get,
                           self.handler)
-

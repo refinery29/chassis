@@ -45,6 +45,8 @@ class DetectCircleTest(unittest.TestCase):
             Check that invalid argument types are
             detected and an exception is raised.
         """
+        # pylint: disable=protected-access
+
         self.assertRaises(TypeError,
                           resolver._detect_circle,
                           'not_a_dictionary')
@@ -184,6 +186,11 @@ class ResolverTest(unittest.TestCase):
         assert isinstance(services['foo'], Foo)
 
     def test_advanced(self):
+        """Test advanced features???
+
+        TODO: Better docstring for this.
+        """
+
         config = {
             'logger': {
                 'module': 'chassis.test.example_classes',
