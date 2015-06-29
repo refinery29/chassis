@@ -143,10 +143,10 @@ class ServiceFactory(object):
             factory_method = dictionary['factory-method']
 
         if 'factory-args' in dictionary:
-            factory_args =dictionary['factory-args']
+            factory_args = dictionary['factory-args']
 
         if 'factory-kwargs' in dictionary:
-            factory_kwargs =dictionary['factory-kwargs']
+            factory_kwargs = dictionary['factory-kwargs']
 
         if 'static' in dictionary:
             static = dictionary['static']
@@ -302,7 +302,6 @@ class ServiceFactory(object):
         # Replace service references
         args = self._replace_services_in_args(args)
         kwargs = self._replace_services_in_kwargs(kwargs)
-
 
         # Instantiate object
         return service_obj(*args, **kwargs)
