@@ -108,7 +108,7 @@ class Weeble(object):
 
 
 class TestLogger(object):
-    def __init__(self, *arg, **kwargs):
+    def __init__(self, *arg, **unused_kwargs):
         self._config = arg[0]
 
     @property

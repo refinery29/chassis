@@ -4,13 +4,13 @@ from setuptools import find_packages, setup
 
 setup(
     name='chassis',
-    version='0.1.4',
+    version='0.1.5',
     packages=find_packages(),
     description="Opinionated REST Framework",
     author="Refinery 29",
     author_email="chassis-project@refinery29.com",
     url="https://github.com/refinery29/chassis",
-    download_url="https://github.com/refinery29/chassis/archive/v0.1.4.tar.gz",
+    download_url="https://github.com/refinery29/chassis/archive/v0.1.5.tar.gz",
     keywords=['Tornado', 'RESTful', 'REST', 'API', 'JSON', 'framework'],
     classifiers=[
         'Development Status :: 3 - Alpha',
