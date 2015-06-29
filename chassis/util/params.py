@@ -122,7 +122,7 @@ def parse_dict(parameters):
 
     Usage:
 
-    @chassis.util.parameters.parse([
+    @chassis.util.parameters.parse_dict([
         ('email', {'validators': [validators.Email], 'required': True}),
         ('password', {'validators': [validators.Password], 'required': True})
         ])
