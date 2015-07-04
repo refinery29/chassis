@@ -10,6 +10,8 @@ python:
 install:
     - pip install -r chassis/development.txt
 
-script:
+before_script:
     - cd chassis
+
+script:
     - nosetests
