@@ -3,6 +3,11 @@
 import sys
 import os
 
+if sys.version_info[0] == 2:
+    if sys.version_info[1] < 7:
+        print "pylint not supported for Python < 2.7. Skipping."
+        sys.exit(0)
+
 
 # check if pylint is installed and import it
 try:
