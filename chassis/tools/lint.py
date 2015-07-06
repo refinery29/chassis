@@ -5,7 +5,7 @@ import os
 
 if sys.version_info[0] == 2:
     if sys.version_info[1] < 7:
-        print "pylint not supported for Python < 2.7. Skipping."
+        print("pylint not supported for Python < 2.7. Skipping.")
         sys.exit(0)
 
 
@@ -13,7 +13,7 @@ if sys.version_info[0] == 2:
 try:
     from pylint import lint
 except ImportError:
-    print "Can't import module pylint. Did you install it?"
+    print("Can't import module pylint. Did you install it?")
     sys.exit(-1)
 
 
