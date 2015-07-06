@@ -8,7 +8,7 @@ python:
     - "3.4"
 
 install:
-    - bash tools/install_dependencies.sh
+    - tools/install_dependencies.sh
 
 before_script:
     - cd chassis
