@@ -9,7 +9,6 @@ python:
 
 install:
 	- pwd
-    - ../install_dependencies.sh
 
 before_script:
     - cd chassis
