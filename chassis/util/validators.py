@@ -57,14 +57,13 @@ class String(BaseValidator):
 
 
     def __init__(self, min_length=None, max_length=None):
-        self.min_length = min_length
-        self.max_length = max_length
-
         super(String, self).__init__()
 
         # TODO: Overwrite self.message based on parameters.
         self.documentation = "String."
         self.message = "Valid string required."
+        self.min_length = min_length
+        self.max_length = max_length
 
     def validate(self, value, unused_handler):
         if not isinstance(value, six.string_types):
@@ -88,12 +87,10 @@ class Regex(BaseValidator):
 
 
     def __init__(self, regex):
-        self.pattern = re.compile(regex)
-
         super(Regex, self).__init__()
-
         self.documentation = "Regex."
         self.message = "String matching regular expression required."
+        self.pattern = re.compile(regex)
 
     def validate(self, value, unused_handler):
         match = self.pattern.match(value)
@@ -108,14 +105,11 @@ class Number(BaseValidator):
     """Validates floating point numbers with optional length requirements."""
 
     def __init__(self, minimum=None, maximum=None):
-
-        self.minimum = minimum
-        self.maximum = maximum
-
         super(Number, self).__init__()
-
         self.documentation = "Number."
         self.message = "Valid number required."
+        self.minimum = minimum
+        self.maximum = maximum
 
 
     def validate(self, value, unused_handler):
