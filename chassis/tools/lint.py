@@ -9,6 +9,11 @@ if sys.version_info[0] == 2:
         six.print_("pylint not supported for Python < 2.7. Skipping.")
         sys.exit(0)
 
+if sys.version_info[0] == 3:
+    if sys.version_info[1] == 2:
+        six.print_("pylint not supported for Python 3.2. Skipping.")
+        sys.exit(0)
+
 # check if pylint is installed and import it
 try:
     from pylint import lint
