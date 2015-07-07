@@ -11,33 +11,13 @@ class ValidationError(Exception):
 class BaseValidator(object):
     """Base class for validators."""
 
-    documentation = "Validated Parameter."
-    message = "Validation failed."
-
-    def __init__(self, message=None, documentation=None):
-        self.override_message = message
-        self.override_documentation = documentation
-
-    def get_documentation(self):
-        """Retrieve the overridden or default documentation string."""
-
-        if self.override_documentation:
-            return self.override_documentation
-        else:
-            return self.documentation
-
-    def get_message(self):
-        """Retrieve the overridden or default error message string."""
-
-        if self.override_message:
-            return self.override_message
-        else:
-            return self.message
+    def __init__(self):
+        self.documentation = "Validated Parameter."
+        self.message = "Validation failed."
 
     def fail(self):
         """Raise a validation error with the messsage."""
-
-        raise ValidationError(self.get_message())
+        raise ValidationError(self.message)
 
     def validate(self, unused_value, unused_handler):
         """Override this to implement validation logic.
@@ -54,8 +34,10 @@ class Boolean(BaseValidator):
     truthy = ['true', '1', 'yes', 't', 'y', True, 1]
     falsy = ['false', '0', 'no', 'f', 'n', False, 0]
 
-    documentation = "Truthy value: Prefered `true` or `false`"
-    message = "Valid boolean required"
+    def __init__(self):
+        super(Boolean, self).__init__()
+        self.documentation = "Truthy value: Prefered `true` or `false`"
+        self.message = "Valid boolean required"
 
     def validate(self, value, unused_handler):
         if isinstance(value, six.string_types):
@@ -73,18 +55,16 @@ class Boolean(BaseValidator):
 class String(BaseValidator):
     """Validates strings with optional length requirements."""
 
-    documentation = "String."
-    message = "Valid string required."
 
-    def __init__(self, min_length=None, max_length=None,
-                 message=None, documentation=None):
+    def __init__(self, min_length=None, max_length=None):
         self.min_length = min_length
         self.max_length = max_length
 
-        # TODO: Make custom messages based on parameters.
+        super(String, self).__init__()
 
-        super(String, self).__init__(message=message,
-                                     documentation=documentation)
+        # TODO: Overwrite self.message based on parameters.
+        self.documentation = "String."
+        self.message = "Valid string required."
 
     def validate(self, value, unused_handler):
         if not isinstance(value, six.string_types):
@@ -106,14 +86,14 @@ class String(BaseValidator):
 class Regex(BaseValidator):
     """Validates a string agains a regular expression."""
 
-    documentation = "Regex."
-    message = "String matching regular expression required."
 
-    def __init__(self, regex, message=None, documentation=None):
+    def __init__(self, regex):
         self.pattern = re.compile(regex)
 
-        super(Regex, self).__init__(message=message,
-                                    documentation=documentation)
+        super(Regex, self).__init__()
+
+        self.documentation = "Regex."
+        self.message = "String matching regular expression required."
 
     def validate(self, value, unused_handler):
         match = self.pattern.match(value)
@@ -127,17 +107,16 @@ class Regex(BaseValidator):
 class Number(BaseValidator):
     """Validates floating point numbers with optional length requirements."""
 
-    documentation = "Number."
-    message = "Valid number required."
-
-    def __init__(self, minimum=None, maximum=None,
-                 message=None, documentation=None):
+    def __init__(self, minimum=None, maximum=None):
 
         self.minimum = minimum
         self.maximum = maximum
 
-        super(Number, self).__init__(message=message,
-                                     documentation=documentation)
+        super(Number, self).__init__()
+
+        self.documentation = "Number."
+        self.message = "Valid number required."
+
 
     def validate(self, value, unused_handler):
         try:
@@ -157,15 +136,10 @@ class Number(BaseValidator):
 class Integer(Number):
     """Validates integers with optional length requirements."""
 
-    documentation = "Integer."
-    message = "Valid integer required."
-
-    def __init__(self, minimum=None, maximum=None,
-                 message=None, documentation=None):
-
-        super(Integer, self).__init__(minimum=minimum, maximum=maximum,
-                                      message=message,
-                                      documentation=documentation)
+    def __init__(self, minimum=None, maximum=None):
+        super(Integer, self).__init__(minimum=minimum, maximum=maximum)
+        self.documentation = "Integer."
+        self.message = "Valid integer required."
 
     def validate(self, value, handler):
 
