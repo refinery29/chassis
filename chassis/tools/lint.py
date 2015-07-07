@@ -2,15 +2,24 @@
 
 import sys
 import os
+import six
 
+if sys.version_info[0] == 2:
+    if sys.version_info[1] < 7:
+        six.print_("pylint not supported for Python < 2.7. Skipping.")
+        sys.exit(0)
+
+if sys.version_info[0] == 3:
+    if sys.version_info[1] == 2:
+        six.print_("pylint not supported for Python 3.2. Skipping.")
+        sys.exit(0)
 
 # check if pylint is installed and import it
 try:
     from pylint import lint
 except ImportError:
-    print "Can't import module pylint. Did you install it?"
+    six.print_("Can't import module pylint. Did you install it?")
     sys.exit(-1)
-
 
 # either use the files given on the command line or all '*.py' files
 # located in and beyond the working directory
@@ -37,7 +46,6 @@ SUPRESSED_MESSAGES = [
     'locally-disabled',
     # 'file-ignored'
 ]
-
 
 PARAMS = [
     '--reports=n',

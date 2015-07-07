@@ -1,3 +1,5 @@
+sudo: false
+
 language: python
 
 python:
@@ -8,8 +10,11 @@ python:
     - "3.4"
 
 install:
-    - pip install -r chassis/development.txt
+    - ./install_dependencies.sh
+
+before_script:
+    - cd chassis
 
 script:
-    - cd chassis
     - nosetests
+    - python tools/lint.py
