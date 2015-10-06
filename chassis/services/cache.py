@@ -1,5 +1,5 @@
 """Redis Cache."""
-# pylint: disable=relative-import, star-args, missing-docstring
+# pylint: disable=relative-import, missing-docstring, too-few-public-methods
 
 import redis
 
@@ -24,7 +24,6 @@ class Cache(data_context.DatasourceContext):
         super(Cache, self).__init__(*args, **kwargs)
 
     def _get_connection(self):
-        # pylint:disable=star-args
         return redis.StrictRedis(connection_pool=self._pool)
 
     def _close_connection(self):
@@ -203,7 +202,7 @@ def delete_value(cache, *key):
 
 def get_value(cache, key):
     """Get a value by key.
-    
+
     Arguments:
         cache:
             instance of Cache

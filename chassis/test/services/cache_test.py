@@ -1,3 +1,5 @@
+"""Unit Test for cache.services.cache module"""
+# pylint: disable=invalid-name
 import unittest
 import yaml
 
@@ -7,15 +9,11 @@ from chassis.services import cache
 def get_config_yaml():
     """Load Test Config"""
     config_file = open('./test/test_config.yml', 'r')
-    config = yaml.load(config_file) or {}
+    return yaml.load(config_file) or {}
 
-    if not config_file.closed:
-        config_file.close
-
-    return config
 
 class CacheTest(unittest.TestCase):
-
+    """Cache Unit Test"""
     _config = None
 
     _cache = None
@@ -47,7 +45,9 @@ class CacheTest(unittest.TestCase):
         result = cache.retrieve_object(self._cache, template, indexes)
         self.assertDictEqual(data, result)
 
-        result = cache.delete_object(self._cache, template, indexes)
+        cache.delete_object(self._cache, template, indexes)
+
+        result = cache.retrieve_object(self._cache, template, indexes)
         self.assertEqual(None, result)
 
     def test_multi_get(self):
@@ -60,20 +60,17 @@ class CacheTest(unittest.TestCase):
         cache.set_object(self._cache, templates, {'id': 67890},
                          {'username': 'John'})
 
-        result = cache.multi_get(self._cache,
-                                ['user:12345:username', 'user:67890:username'])
+        result = cache.multi_get(self._cache, ['user:12345:username',
+                                               'user:67890:username'])
 
         self.assertEquals(['Bob', 'John'], result)
 
     def test_set_get_and_delete_value(self):
-        templates = {'username': 'user:%(id)s:username',
-            'email': 'user:%(id)s:email',
-            'phone': 'user:%(id)s:phone'
-        }
+        """Test setting, getting, and deleting value by key"""
         cache.set_object(self._cache,
-                        {'username': 'user:%(id)s:username'},
-                        {'id': 12345},
-                        {'username': 'Bob'})
+                         {'username': 'user:%(id)s:username'},
+                         {'id': 12345},
+                         {'username': 'Bob'})
 
         cache.set_value(self._cache, 'user:12345:username', 'Harry')
 

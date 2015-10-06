@@ -1,7 +1,8 @@
+"""Unit test for chassis.services.data_context module"""
+# pylint: disable=invalid-name, protected-access
 import unittest
 
 from chassis.services import data_context
-from chassis.test.services.foo_context import FooContext
 
 
 class UnextendedDatasourceContextTest(unittest.TestCase):
@@ -29,7 +30,9 @@ class UnextendedDatasourceContextTest(unittest.TestCase):
 
     def test_enter_raises_error(self):
         """__enter__ should raise a NotImplementedError"""
+        # pylint: disable=unused-variable, redundant-unittest-assert
         context = data_context.DatasourceContext()
         with self.assertRaises(NotImplementedError):
             with context as connection:
-                self.assertFalse('This statement should not be executed')
+                # Below statement should not be reached.
+                self.assertTrue(False)

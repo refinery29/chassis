@@ -1,6 +1,5 @@
-"""Data Source Context Manager
-
-"""
+"""Data Source Context Manager"""
+# pylint: disable=too-few-public-methods
 
 from tornado import web
 
