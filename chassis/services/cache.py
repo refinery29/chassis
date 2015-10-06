@@ -156,20 +156,60 @@ def delete_object(cache, template, indexes):
 
 
 def multi_get(cache, local_list):
+    """Get multiple records by a list of keys.
+
+    Arguments:
+        cache:
+            instance of Cache
+
+        local_list:
+            [
+                'user:342:username',
+                'user:342:email',
+                'user:342:phone'
+            ]
+    """
     with cache as redis_connection:
         return redis_connection.mget(local_list)
 
 
 def set_value(cache, key, value):
+    """Set a value by key.
+
+    Arguments:
+        cache:
+            instance of Cache
+
+        key:
+            'user:342:username',
+    """
     with cache as redis_connection:
         return redis_connection.set(key, value)
 
 
 def delete_value(cache, *key):
+    """Delete a value by key.
+
+    Arguments:
+        cache:
+            instance of Cache
+
+        key:
+            'user:342:username',
+    """
     with cache as redis_connection:
         return redis_connection.delete(*key)
 
 
 def get_value(cache, key):
+    """Get a value by key.
+    
+    Arguments:
+        cache:
+            instance of Cache
+
+        key:
+            'user:342:username',
+    """
     with cache as redis_connection:
         return redis_connection.get(key)
