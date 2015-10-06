@@ -13,26 +13,21 @@ class UnextendedDatasourceContextTest(unittest.TestCase):
     def test_insert_raises_error(self):
         """insert should raise a NotImplementedError"""
         context = data_context.DatasourceContext()
-        with self.assertRaises(NotImplementedError):
-            context.insert('query', ['params'])
+        self.assertRaises(NotImplementedError, context.insert, 'query',
+                          ['params'])
 
     def test_get_connection_raises_error(self):
         """_get_connection should raise a NotImplementedError"""
         context = data_context.DatasourceContext()
-        with self.assertRaises(NotImplementedError):
-            context._get_connection()
+        self.assertRaises(NotImplementedError, context._get_connection)
 
     def test_close_connection_raises_error(self):
         """_close_connection should raise a NotImplementedError"""
         context = data_context.DatasourceContext()
-        with self.assertRaises(NotImplementedError):
-            context._close_connection()
+        self.assertRaises(NotImplementedError, context._close_connection)
 
     def test_enter_raises_error(self):
         """__enter__ should raise a NotImplementedError"""
         # pylint: disable=unused-variable, redundant-unittest-assert
         context = data_context.DatasourceContext()
-        with self.assertRaises(NotImplementedError):
-            with context as connection:
-                # Below statement should not be reached.
-                self.assertTrue(False)
+        self.assertRaises(NotImplementedError, context.__enter__)

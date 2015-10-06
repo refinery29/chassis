@@ -3,7 +3,7 @@
 
 import redis
 
-import data_context
+from chassis.services import data_context
 
 
 class CacheConnectionError(data_context.DataSourceConnectionError):
@@ -75,7 +75,7 @@ def retrieve_object(cache, template, indexes):
     keys = []
     with cache as redis_connection:
         pipe = redis_connection.pipeline()
-        for result_key, redis_key_template in template.iteritems():
+        for (result_key, redis_key_template) in template.items():
             keys.append(result_key)
             pipe.get(redis_key_template % indexes)
         results = pipe.execute()

@@ -43,7 +43,12 @@ class CacheTest(unittest.TestCase):
         cache.set_object(self._cache, template, indexes, data)
 
         result = cache.retrieve_object(self._cache, template, indexes)
-        self.assertDictEqual(data, result)
+        self.assertEqual(
+            {'username': b'Bob',
+             'email': b'bob@example.com',
+             'phone': b'555-555-5555'},
+            result
+            )
 
         cache.delete_object(self._cache, template, indexes)
 
@@ -63,7 +68,7 @@ class CacheTest(unittest.TestCase):
         result = cache.multi_get(self._cache, ['user:12345:username',
                                                'user:67890:username'])
 
-        self.assertEquals(['Bob', 'John'], result)
+        self.assertEquals([b'Bob', b'John'], result)
 
     def test_set_get_and_delete_value(self):
         """Test setting, getting, and deleting value by key"""
@@ -75,7 +80,7 @@ class CacheTest(unittest.TestCase):
         cache.set_value(self._cache, 'user:12345:username', 'Harry')
 
         result = cache.get_value(self._cache, 'user:12345:username')
-        self.assertEquals('Harry', result)
+        self.assertEquals(b'Harry', result)
 
         result = cache.delete_value(self._cache, 'user:12345:username')
         self.assertEquals(1, result)
