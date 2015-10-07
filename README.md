@@ -1,4 +1,8 @@
-# Chassis
+# Chassis 
+
+[![Build Status](https://travis-ci.org/refinery29/chassis.svg?branch=develop)](https://travis-ci.org/refinery29/chassis) 
+[![Code Climate](https://codeclimate.com/repos/5548ed43e30ba05e6000085f/badges/2b35281dd6719a08903a/gpa.svg)](https://codeclimate.com/repos/5548ed43e30ba05e6000085f/feed)
+[![Dependency Status](https://www.versioneye.com/user/projects/55c3987c653762001a002e06/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55c3987c653762001a002e06)
 
 Chassis is Refinery29's framework layer on top of Tornado for rapidly building
 performant, self-documenting JSON-based REST APIs.

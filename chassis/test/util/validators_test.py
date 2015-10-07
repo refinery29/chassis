@@ -7,7 +7,7 @@ from chassis.util import validators
 
 class TestBaseValidator(test.TestCase):
 
-    def test_default_failure(self):
+    def test_failure(self):
         validator = validators.BaseValidator()
         self.assertRaisesWithMessage(validators.ValidationError,
                                      "Validation failed.",
@@ -17,22 +17,9 @@ class TestBaseValidator(test.TestCase):
         validator = validators.BaseValidator()
         self.assertRaises(NotImplementedError, validator.validate, 'foo', None)
 
-    def test_override_message(self):
-        new_message = "Foo Message."
-        validator = validators.BaseValidator(message=new_message)
-        self.assertEqual(validator.get_message(), new_message)
-        self.assertRaisesWithMessage(validators.ValidationError,
-                                     new_message,
-                                     validator.fail)
-
-    def test_default_documentation(self):
+    def test_documentation(self):
         validator = validators.BaseValidator()
-        self.assertEqual(validator.get_documentation(), "Validated Parameter.")
-
-    def test_override_documentation(self):
-        new_documentation = "Foo Message."
-        validator = validators.BaseValidator(documentation=new_documentation)
-        self.assertEqual(validator.get_documentation(), new_documentation)
+        self.assertEqual(validator.documentation, "Validated Parameter.")
 
 
 class TestBoolean(test.TestCase):
