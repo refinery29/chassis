@@ -13,11 +13,8 @@ services:
     - redis-server
 
 install:
-    - ./install_dependencies.sh
-
-before_script:
-    - cd chassis
+    - make install
 
 script:
-    - nosetests
-    - python tools/lint.py
+    - make test
+    - make lint
