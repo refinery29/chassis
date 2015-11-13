@@ -55,7 +55,6 @@ class Boolean(BaseValidator):
 class String(BaseValidator):
     """Validates strings with optional length requirements."""
 
-
     def __init__(self, min_length=None, max_length=None):
         super(String, self).__init__()
 
@@ -85,7 +84,6 @@ class String(BaseValidator):
 class Regex(BaseValidator):
     """Validates a string agains a regular expression."""
 
-
     def __init__(self, regex):
         super(Regex, self).__init__()
         self.documentation = "Regex."
@@ -110,7 +108,6 @@ class Number(BaseValidator):
         self.message = "Valid number required."
         self.minimum = minimum
         self.maximum = maximum
-
 
     def validate(self, value, unused_handler):
         try:
